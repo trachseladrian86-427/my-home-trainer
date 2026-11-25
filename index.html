@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#172d27"><meta name="description" content="Dein persönlicher Heimtrainings-Coach">
+<link rel="manifest" href="./manifest.webmanifest"><title>My Home Trainer</title>
+<style>
+:root{--bg:#f2f6f3;--card:#fff;--ink:#172d27;--muted:#66776e;--green:#187653;--soft:#e4f1e9;--line:#dfe8e2;--dark:#172d27}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding-bottom:82px}
+header{background:var(--dark);color:#fff;padding:20px 18px 23px;border-radius:0 0 24px 24px}
+.brand{font-size:11px;letter-spacing:2px;color:#b9d8c9;font-weight:800}.headrow,.row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+h1{font-size:27px;margin:11px 0 3px}header p{margin:0;color:#c6d9d0;font-size:14px}
+main{max-width:680px;margin:auto;padding:14px}
+nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:8px 4px calc(8px + env(safe-area-inset-bottom));z-index:9}
+nav button{border:0;background:none;color:var(--muted);font-size:11px;padding:4px 8px;display:flex;flex-direction:column;gap:3px;align-items:center}nav button b{font-size:20px}nav button.active{color:var(--green);font-weight:800}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:15px;margin:11px 0;box-shadow:0 3px 12px #163b270b}
+.eyebrow{font-size:11px;font-weight:850;letter-spacing:1.1px;color:var(--green)}h2{font-size:21px;margin:5px 0 8px}h3{font-size:17px;margin:0 0 6px}.muted{color:var(--muted)}.small{font-size:13px}.tiny{font-size:11px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:9px}.stat{background:#29473d;color:white;border-radius:14px;padding:13px}.stat strong{display:block;font-size:25px}.stat span{font-size:12px;color:#c6d9d0}
+.btn{border:0;border-radius:13px;background:var(--green);color:#fff;padding:14px 15px;font-size:15px;font-weight:800;width:100%;cursor:pointer}.btn.secondary{background:var(--soft);color:var(--ink)}.btn.ghost{background:#f1f5f2;color:var(--ink)}.btn:disabled{opacity:.4}
+.pills{display:flex;gap:8px;flex-wrap:wrap}.pill{border:1px solid var(--line);border-radius:30px;padding:8px 13px;background:#fff;color:var(--ink);font-weight:750}.pill.selected{background:var(--soft);border-color:#9bcbb0;color:var(--green)}
+.progress{height:8px;background:#e5ece7;border-radius:20px;overflow:hidden}.progress>div{height:100%;background:var(--green);width:0;transition:width .2s}
+.tag{display:inline-block;background:var(--soft);color:var(--green);padding:5px 9px;border-radius:20px;font-size:11px;font-weight:850}
+.exercise{display:flex;gap:11px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line)}.exercise:last-child{border:0}.num{background:var(--soft);color:var(--green);font-weight:850;border-radius:12px;width:36px;height:36px;display:grid;place-items:center;flex:none}
+.dose{font-weight:850;color:var(--green);margin:4px 0}.tip{font-size:13px;color:var(--muted);line-height:1.45}
+.timer{font-size:58px;font-weight:900;text-align:center;letter-spacing:-2px;margin:9px 0}.center{text-align:center}
+input{width:100%;padding:12px;border:1px solid var(--line);border-radius:11px;font:inherit;background:#fff;color:var(--ink)}label{font-size:13px;font-weight:750;display:block;margin:10px 0 5px}
+.hidden{display:none!important}.checkline{display:flex;align-items:center;gap:9px;padding:8px 0}.checkline input{width:19px;height:19px;accent-color:var(--green)}
+.phase{font-size:12px;font-weight:850;letter-spacing:1px;color:var(--green);text-transform:uppercase}
+.exercise-art{width:82px;height:72px;border-radius:14px;background:linear-gradient(145deg,#e7f3eb,#f4f8f5);display:grid;place-items:center;font-size:36px;flex:none}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:16px}
+</style></head>
+<body>
+<header><div class="headrow"><div class="brand">MY HOME TRAINER</div><span class="tag">DEIN COACH</span></div><h1 id="greeting">Bereit für heute?</h1><p>Dein persönlicher 20-Minuten-Heimtrainer.</p></header>
+<main>
+<section id="home">
+ <div class="card"><div class="eyebrow">DEIN 12-WOCHEN-PROGRAMM</div><h2>Kraft aufbauen. Bauchumfang reduzieren.</h2>
+  <div class="stats"><div class="stat"><strong>20′</strong><span>pro Einheit</span></div><div class="stat"><strong id="weekStat">Woche 1</strong><span>Trainingsphase</span></div></div>
+  <div class="row" style="margin:14px 0 6px"><b class="small">Programmfortschritt</b><span id="progressText" class="small muted">0 %</span></div><div class="progress"><div id="overallBar"></div></div>
+ </div>
+ <div class="card"><div class="eyebrow">DEIN NÄCHSTES TRAINING</div><div class="row"><div><h2 id="nextTitle">Training A</h2><div class="muted small" id="nextSub">Ganzkörper & Bauch</div></div><span class="tag" id="nextTag">A</span></div>
+  <button class="btn" style="margin-top:13px" onclick="startWorkout()">TRAINING STARTEN</button>
+  <div class="pills" style="margin-top:10px"><button class="pill" onclick="startWorkout('A')">A auswählen</button><button class="pill" onclick="startWorkout('B')">B auswählen</button></div>
+ </div>
+ <div class="card"><h3>Diese Woche</h3><div class="row"><span class="small muted">Abgeschlossene Krafteinheiten</span><b id="weekSessions">0 / 3</b></div><div class="progress" style="margin:8px 0"><div id="weekBar"></div></div><p class="small muted">Ziel: 3 Krafteinheiten und 2 zusätzliche Bewegungseinheiten, zum Beispiel zügiges Gehen.</p></div>
+ <div class="card"><h3>Dein Wochenrhythmus</h3><p class="small">Mo · Kraft A/B &nbsp; Di · Gehen<br>Mi · Kraft B/A &nbsp; Do · Erholung<br>Fr · Kraft A/B &nbsp; Sa · Gehen · So · Pause</p></div>
+</section>
+
+<section id="workout" class="hidden">
+ <div class="row"><div><div class="eyebrow">TRAININGSCOACH</div><h2 id="workTitle">Training A</h2></div><button class="pill" onclick="confirmExit()">Beenden</button></div>
+ <div class="card center">
+  <span class="tag" id="roundLabel">Aufwärmen</span><div class="phase" id="phaseLabel">Vorbereitung</div>
+  <div class="timer" id="timer">03:00</div><div class="exercise-art" style="margin:0 auto 10px" id="art">🏃</div>
+  <h2 id="currentName">Aufwärmen</h2><p class="muted small" id="currentDose">3 Minuten</p><p class="tip" id="currentTip">Locker marschieren und mobilisieren.</p>
+  <div class="progress"><div id="exerciseBar"></div></div>
+  <div class="row" style="margin-top:14px"><button class="btn secondary" style="width:32%" onclick="prevStep()">Zurück</button><button class="btn" style="width:66%" onclick="nextStep()">Weiter</button></div>
+  <button class="btn ghost" style="margin-top:9px" id="timerBtn" onclick="toggleTimer()">Timer starten</button>
+  <p class="tiny muted">Der Timer läuft auch bei gesperrtem Bildschirm nicht zuverlässig auf jedem Handy. Bildschirm während der Einheit möglichst eingeschaltet lassen.</p>
+ </div>
+ <div class="card"><div class="row"><b>Dein Ablauf</b><span id="stepCount" class="small muted">1 / 1</span></div><div id="stepList"></div></div>
+</section>
+
+<section id="progressPage" class="hidden">
+ <div class="eyebrow">DEINE ENTWICKLUNG</div><h2>Fortschritt</h2>
+ <div class="card"><h3>Trainingsbilanz</h3><div class="stats"><div><strong id="totalSessions">0</strong><div class="small muted">Einheiten gesamt</div></div><div><strong id="weekNumber">1</strong><div class="small muted">Programm-Woche</div></div></div></div>
+ <div class="card"><h3>Körperwerte erfassen</h3><p class="small muted">Möglichst morgens unter ähnlichen Bedingungen messen.</p><label for="weight">Gewicht (kg)</label><input id="weight" type="number" step=".1" placeholder="z. B. 85"><label for="waist">Bauchumfang (cm, auf Nabelhöhe)</label><input id="waist" type="number" step=".1" placeholder="z. B. 96"><button class="btn" style="margin-top:12px" onclick="saveMeasures()">MESSUNG SPEICHERN</button><p id="measureMsg" class="small muted"></p></div>
+ <div class="card"><h3>Letzte Messungen</h3><div id="measureHistory" class="small muted">Noch keine Messungen erfasst.</div></div>
+ <div class="card"><h3>Trainingshistorie</h3><div id="sessionHistory" class="small muted">Noch keine Trainings abgeschlossen.</div></div>
+ <div class="card"><h3>Daten sichern</h3><p class="small muted">Exportiere deine Trainingsdaten regelmässig als Datei, damit du sie bei einem Handywechsel behalten kannst.</p><button class="btn secondary" onclick="exportData()">DATEN EXPORTIEREN</button><label for="importFile">Sicherung wiederherstellen</label><input id="importFile" type="file" accept="application/json" onchange="importData(event)"></div>
+</section>
+
+<section id="guide" class="hidden">
+ <div class="eyebrow">DEIN TRAININGSPLAN</div><h2>Übungen & Regeln</h2>
+ <div class="card"><div class="pills"><button class="pill selected" onclick="renderPlan('A',this)">Training A</button><button class="pill" onclick="renderPlan('B',this)">Training B</button></div><div id="planDetail" style="margin-top:12px"></div></div>
+ <div class="card"><h3>Deine 12-Wochen-Steigerung</h3><p class="small">Woche 1–2: 2 Durchgänge, Technik lernen.<br>Woche 3–4: 3 Durchgänge.<br>Woche 5–6: Wiederholungen steigern.<br>Woche 7–8: langsamer und kontrollierter ausführen.<br>Woche 9–12: schwierigere Varianten wählen.</p><p class="small muted">Steigere erst, wenn du die aktuelle Variante sauber beherrschst. Beende die meisten Sätze mit etwa 2–3 technisch sauberen Wiederholungen in Reserve.</p></div>
+ <div class="card"><h3>Bauchfett reduzieren</h3><p class="small">Bauchfett lässt sich nicht gezielt wegtrainieren. Entscheidend ist ein moderates Kaloriendefizit über längere Zeit, kombiniert mit Krafttraining und Alltagsbewegung.</p><p class="small">• Protein als Orientierung: ca. 120–140 g täglich.<br>• Ungesüsste Getränke bevorzugen.<br>• Gemüse und sättigende Mahlzeiten.<br>• Schritte schrittweise erhöhen, beispielsweise Richtung 7'000–9'000 täglich, wenn es zu deinem Ausgangsniveau passt.</p></div>
+ <div class="card"><h3>Sicherheit</h3><p class="small">Stuhl und Tisch nur verwenden, wenn stabil und rutschfest. Bewegungen kontrolliert ausführen. Bei stechenden Schmerzen, Schwindel oder ungewöhnlicher Atemnot abbrechen. Keine improvisierten Zug- oder Klimmzugkonstruktionen.</p></div>
+ <div class="card"><h3>Datenschutz</h3><p class="small">Deine Trainings- und Körperdaten werden nur lokal im Browser dieses Geräts gespeichert. Die App überträgt sie nicht an einen Server. Beim Löschen der Browserdaten können sie verloren gehen – nutze deshalb den Datenexport.</p></div>
+</section>
+</main>
+<nav><button class="active" data-tab="home" onclick="showTab('home')"><b>⌂</b>Start</button><button data-tab="workout" onclick="startWorkout()"><b>▶</b>Training</button><button data-tab="progressPage" onclick="showTab('progressPage')"><b>↗</b>Fortschritt</button><button data-tab="guide" onclick="showTab('guide')"><b>☰</b>Plan</button></nav>
+<footer>My Home Trainer · Version 2 · Deine Daten bleiben auf diesem Gerät.</footer>
+<script>
+const plans={
+ A:[["Liegestütze","10–15 Wiederholungen","Brust, Schultern und Trizeps. Leichter: Hände auf eine stabile, rutschfeste Erhöhung setzen. Körper gerade halten.","💪"],["Kniebeugen","15–20 Wiederholungen","Füsse etwa schulterbreit. Hüfte nach hinten und unten, Knie folgen den Fussspitzen. Kontrolliert aufstehen.","🦵"],["Rückwärts-Ausfallschritte","10 je Bein","Einen Schritt nach hinten machen und kontrolliert absenken. Bei Bedarf an einer stabilen Stuhllehne festhalten.","🚶"],["Reverse Crunch","12–15 Wiederholungen","Knie zur Brust ziehen und das Becken leicht anheben. Ohne Schwung, langsam absenken.","🧘"],["Unterarmstütz (Plank)","30–40 Sekunden","Körper in einer Linie halten, Bauch anspannen und Hohlkreuz vermeiden. Bei Bedarf auf den Knien.","🧍"]],
+ B:[["Pike Push-ups","8–12 Wiederholungen","Hüfte hoch, Hände stabil aufstellen und Kopf kontrolliert Richtung Boden senken. Leichtere Variante: Hände erhöht.","🙆"],["Glute Bridge","15–20 Wiederholungen","Rückenlage, Füsse aufstellen. Hüfte heben, Gesäss oben kurz anspannen und langsam senken.","🌉"],["Y-T-W Rückenheben","8–10 je Position","Bauchlage. Arme nacheinander in Y-, T- und W-Form bewegen. Kleine kontrollierte Bewegungen, Nacken neutral.","🪽"],["Dead Bug","10 je Seite","Rücken sanft am Boden halten. Gegenüberliegenden Arm und Fuss langsam strecken, Seite wechseln.","🐞"],["Seitlicher Unterarmstütz","20–30 Sekunden je Seite","Hüfte anheben und Körper möglichst gerade halten. Leichtere Variante mit angewinkelten Knien.","🧘"]]
+};
+let state=JSON.parse(localStorage.getItem('mht-v2')||'{"sessions":[],"measures":[],"lastPlan":"B","week":1}');
+let activePlan='A',steps=[],step=0,seconds=0,interval=null,running=false,round=1,rounds=2,phase='work';
+function persist(){localStorage.setItem('mht-v2',JSON.stringify(state))}
+function showTab(id){stopTimer();document.querySelectorAll('main section').forEach(s=>s.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===id));if(id==='home')refresh();if(id==='progressPage')refreshProgress()}
+function currentWeek(){return Math.min(12,Math.floor(state.sessions.length/3)+1)}
+function refresh(){let count=state.sessions.length,w=currentWeek(),pct=Math.min(100,Math.round(count/36*100));document.getElementById('weekStat').textContent='Woche '+w;document.getElementById('progressText').textContent=pct+' %';document.getElementById('overallBar').style.width=pct+'%';let next=state.lastPlan==='A'?'B':'A';document.getElementById('nextTitle').textContent='Training '+next;document.getElementById('nextTag').textContent=next;document.getElementById('nextSub').textContent=next==='A'?'Ganzkörper & Bauch':'Oberkörper, Rücken & Rumpf';let thisWeek=count%3;document.getElementById('weekSessions').textContent=thisWeek+' / 3';document.getElementById('weekBar').style.width=(thisWeek/3*100)+'%';}
+function makeSteps(){steps=[{type:'warm',name:'Aufwärmen',dose:'3 Minuten',tip:'Auf der Stelle marschieren, Armkreisen, lockere Kniebeugen und Hüftmobilisation.',duration:180,art:'🏃'}];plans[activePlan].forEach((x,i)=>steps.push({type:'work',name:x[0],dose:x[1],tip:x[2],duration:40,art:x[3],index:i}));steps.push({type:'cool',name:'Abschluss',dose:'2 Minuten',tip:'Locker bewegen, tief durchatmen und leicht mobilisieren.',duration:120,art:'🌿'})}
+function startWorkout(which){activePlan=which||((state.lastPlan==='A')?'B':'A');round=1;rounds=currentWeek()<=2?2:3;makeSteps();step=0;phase='work';showTab('workout');renderStep()}
+function renderStep(){stopTimer();let s=steps[step];seconds=s.duration;phase='work';document.getElementById('workTitle').textContent='Training '+activePlan;document.getElementById('roundLabel').textContent=s.type==='work'?`Durchgang ${round} von ${rounds}`:(s.type==='warm'?'Aufwärmen':'Abschluss');document.getElementById('phaseLabel').textContent=s.type==='work'?'Belastung':s.type==='warm'?'Vorbereitung':'Cool-down';document.getElementById('currentName').textContent=s.name;document.getElementById('currentDose').textContent=s.dose;document.getElementById('currentTip').textContent=s.tip;document.getElementById('art').textContent=s.art;document.getElementById('timer').textContent=fmt(seconds);document.getElementById('timerBtn').textContent='Timer starten';document.getElementById('stepCount').textContent=(step+1)+' / '+steps.length;document.getElementById('exerciseBar').style.width=((step+1)/steps.length*100)+'%';renderStepList()}
+function renderStepList(){document.getElementById('stepList').innerHTML=steps.map((x,i)=>`<div class="checkline"><span class="num">${i+1}</span><div style="flex:1"><b>${x.name}</b><div class="muted tiny">${x.dose}</div></div>${i===step?'<span class="tag">Jetzt</span>':''}</div>`).join('')}
+function fmt(n){return String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0')}
+function beep(){try{let C=window.AudioContext||window.webkitAudioContext;if(!C)return;let c=new C(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=740;g.gain.value=.08;o.start();o.stop(c.currentTime+.16);setTimeout(()=>c.close(),300)}catch(e){}if(navigator.vibrate)navigator.vibrate([120,60,120])}
+function toggleTimer(){if(running){stopTimer();document.getElementById('timerBtn').textContent='Timer fortsetzen';return}running=true;document.getElementById('timerBtn').textContent='Timer pausieren';interval=setInterval(()=>{seconds--;document.getElementById('timer').textContent=fmt(seconds);if(seconds<=0){stopTimer();beep();document.getElementById('timerBtn').textContent='Zeit abgelaufen – weiter';}},1000)}
+function stopTimer(){if(interval)clearInterval(interval);interval=null;running=false}
+function nextStep(){stopTimer();let s=steps[step];if(step===steps.length-1){state.sessions.push({date:new Date().toISOString(),plan:activePlan,week:currentWeek()});state.lastPlan=activePlan;persist();beep();alert('Geschafft! Training '+activePlan+' wurde gespeichert.');showTab('home');return}
+ if(s.type==='work'&&phase==='work'){phase='rest';seconds=(s.index===4?60:20);document.getElementById('phaseLabel').textContent='Pause';document.getElementById('roundLabel').textContent=`Erholung · Durchgang ${round}/${rounds}`;document.getElementById('currentName').textContent='Pause';document.getElementById('currentDose').textContent=seconds===60?'60 Sekunden zwischen den Durchgängen':'20 Sekunden';document.getElementById('currentTip').textContent='Locker atmen, ausschütteln und für die nächste Übung bereit machen.';document.getElementById('art').textContent='💧';document.getElementById('timer').textContent=fmt(seconds);document.getElementById('timerBtn').textContent='Pausentimer starten';return}
+ if(s.type==='work'&&phase==='rest'){if(s.index===4&&round<rounds){round++;step=1}else{step++}renderStep();return}
+ step++;renderStep()}
+function prevStep(){stopTimer();if(phase==='rest'){phase='work';renderStep();return}if(step>0)step--;round=1;renderStep()}
+function confirmExit(){if(confirm('Training wirklich verlassen? Der aktuelle Durchgang wird nicht gespeichert.'))showTab('home')}
+function renderPlan(p,btn){document.querySelectorAll('#guide .pill').forEach(x=>x.classList.remove('selected'));btn.classList.add('selected');document.getElementById('planDetail').innerHTML=plans[p].map((x,i)=>`<div class="exercise"><div class="exercise-art">${x[3]}</div><div><b>${i+1}. ${x[0]}</b><div class="dose">${x[1]}</div><div class="tip">${x[2]}</div></div></div>`).join('')}
+function refreshProgress(){document.getElementById('totalSessions').textContent=state.sessions.length;document.getElementById('weekNumber').textContent=currentWeek();document.getElementById('measureHistory').innerHTML=state.measures.length?state.measures.slice(-6).reverse().map(m=>`${m.date}: ${m.weight?m.weight+' kg':''} ${m.waist?' · '+m.waist+' cm':''}`).join('<br>'):'Noch keine Messungen erfasst.';document.getElementById('sessionHistory').innerHTML=state.sessions.length?state.sessions.slice(-8).reverse().map(s=>`${new Date(s.date).toLocaleDateString('de-CH')} · Training ${s.plan}`).join('<br>'):'Noch keine Trainings abgeschlossen.'}
+function saveMeasures(){let w=document.getElementById('weight').value,wa=document.getElementById('waist').value;if(!w&&!wa){document.getElementById('measureMsg').textContent='Bitte mindestens einen Wert eintragen.';return}state.measures.push({date:new Date().toLocaleDateString('de-CH'),weight:w,waist:wa});persist();document.getElementById('measureMsg').textContent='Messung gespeichert.';refreshProgress()}
+function exportData(){let blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='my-home-trainer-sicherung.json';a.click();URL.revokeObjectURL(a.href)}
+function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result);if(!Array.isArray(d.sessions)||!Array.isArray(d.measures))throw Error();state=d;persist();refreshProgress();alert('Sicherung importiert.')}catch(err){alert('Datei konnte nicht gelesen werden.')}};r.readAsText(f)}
+renderPlan('A',document.querySelector('#guide .pill'));refresh();
+if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script></body></html>

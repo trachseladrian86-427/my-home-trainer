@@ -1,0 +1,41 @@
+MY HOME TRAINER – VERSION 2
+
+DATEIEN
+- index.html: App
+- manifest.webmanifest: PWA-Definition
+- sw.js: Offline-Cache
+- icon-192.png / icon-512.png: App-Symbole
+- .nojekyll: verhindert Jekyll-Verarbeitung
+
+KOSTENLOS AUF GITHUB PAGES VERÖFFENTLICHEN
+1. Auf https://github.com ein kostenloses Konto erstellen oder anmelden.
+2. Oben rechts auf + > New repository klicken.
+3. Repository-Name: my-home-trainer
+4. Public auswählen, Create repository.
+5. Add file > Upload files wählen.
+6. Alle Dateien aus diesem ZIP (auch .nojekyll) hochladen. Nicht die ZIP-Datei selbst hochladen.
+7. Commit changes.
+8. Im Repository Settings > Pages öffnen.
+9. Bei Build and deployment: Deploy from a branch wählen.
+10. Branch main und Ordner /(root) wählen, Save.
+11. Nach Veröffentlichung wird die Adresse https://DEINBENUTZERNAME.github.io/my-home-trainer/ angezeigt.
+GitHub Pages stellt github.io-Seiten über HTTPS bereit. Das kann einige Minuten dauern.
+
+AUF SAMSUNG INSTALLIEREN
+1. Die veröffentlichte https-Adresse mit Chrome auf dem Samsung öffnen.
+2. Chrome-Menü ⋮ öffnen.
+3. „App installieren“ oder „Zum Startbildschirm hinzufügen“ wählen.
+4. Bestätigen. Die App erscheint als Symbol auf dem Startbildschirm.
+
+APP-FUNKTIONEN V2
+- A/B-Training mit Auswahl
+- Timer, Pausentimer, akustisches Signal und Vibration (wenn vom Gerät unterstützt)
+- 2 Durchgänge in Woche 1–2, danach 3 Durchgänge
+- Trainingshistorie und Wochenziel
+- Gewicht- und Bauchumfang-Messungen
+- Export/Import der lokalen Trainingsdaten
+- Offline-Nutzung nach dem ersten vollständigen Laden
+
+WICHTIG
+GitHub Pages veröffentlicht die App-Dateien öffentlich. Die App enthält keine persönlichen Daten und sendet deine Trainingsdaten nicht an GitHub. Messwerte bleiben lokal im Browser auf deinem Gerät. Sichere sie über den Datenexport.
+Der Timer kann bei gesperrtem Bildschirm oder Energiesparmodus pausieren. Für verlässliche Signale das Display während des Trainings eingeschaltet lassen.
