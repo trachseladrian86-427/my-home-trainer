@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#172d27"><meta name="description" content="Dein persönlicher Heimtrainings-Coach">
-<link rel="manifest" href="./manifest.webmanifest"><title>My Home Trainer</title>
+<link rel="manifest" href="./manifest.webmanifest"><title>My Home Trainer V4</title>
 <style>
 :root{--bg:#f2f6f3;--card:#fff;--ink:#172d27;--muted:#66776e;--green:#187653;--soft:#e4f1e9;--line:#dfe8e2;--dark:#172d27}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding-bottom:82px}
@@ -28,6 +28,27 @@ input{width:100%;padding:12px;border:1px solid var(--line);border-radius:11px;fo
 .phase{font-size:12px;font-weight:850;letter-spacing:1px;color:var(--green);text-transform:uppercase}
 .exercise-art{width:82px;height:72px;border-radius:14px;background:linear-gradient(145deg,#e7f3eb,#f4f8f5);display:grid;place-items:center;font-size:36px;flex:none}.howto{background:#f4f8f5;border:1px solid var(--line);border-radius:13px;padding:11px;margin-top:12px;text-align:left;font-size:13px;line-height:1.45}.howto b{color:var(--green)}
 footer{text-align:center;color:var(--muted);font-size:11px;padding:16px}
+
+/* V4 visual refresh */
+:root{--bg:#eef3f8;--card:#fff;--ink:#142b45;--muted:#607286;--green:#167a58;--soft:#e6f4ed;--line:#d9e4ee;--dark:#12345a;--blue:#2468a8}
+body{background:linear-gradient(180deg,#eaf1f8 0,#f5f8fb 260px);color:var(--ink)}
+header{background:linear-gradient(125deg,#102e52,#205d91);border-radius:0 0 26px 26px;box-shadow:0 8px 24px #12345a20}
+.brand{color:#c8e2f8}
+.card{border:1px solid #dce6ef;box-shadow:0 5px 18px #12345a0c}
+.btn{background:linear-gradient(135deg,#1769aa,#2485c5);box-shadow:0 4px 12px #1769aa22}
+.btn.secondary{background:#e6f1fa;color:#174e7b;box-shadow:none}
+.btn.ghost{background:#f0f4f8;color:#34516b;box-shadow:none}
+.tag{background:#e4f1fb;color:#1c639b}
+.progress>div{background:linear-gradient(90deg,#2185c8,#28a878)}
+.exercise-art{width:100%;height:auto;min-height:0;border-radius:16px;background:linear-gradient(135deg,#f5f9fd,#e8f2fa);display:block;padding:8px;margin:12px 0}
+.exercise-art svg{display:block;width:100%;height:auto;max-height:230px}
+.howto{background:#f3f8fc;border-color:#dce9f4;padding:13px}
+.phase{color:#1d6da8}
+.timer{font-size:clamp(54px,15vw,72px);color:#174f7d;margin:4px 0}
+.workout-hero{border:1px solid #d9e7f2;background:linear-gradient(180deg,#fff,#f7fbff)}
+nav{box-shadow:0 -4px 18px #12345a0b}
+nav button.active{color:#1769aa}
+
 </style></head>
 <body>
 <header><div class="headrow"><div class="brand">MY HOME TRAINER</div><span class="tag">DEIN COACH</span></div><h1 id="greeting">Bereit für heute?</h1><p>Dein persönlicher 20-Minuten-Heimtrainer.</p></header>
@@ -47,14 +68,14 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:16px}
 
 <section id="workout" class="hidden">
  <div class="row"><div><div class="eyebrow">TRAININGSCOACH</div><h2 id="workTitle">Training A</h2></div><button class="pill" onclick="confirmExit()">Beenden</button></div>
- <div class="card center">
+ <div class="card center workout-hero">
   <span class="tag" id="roundLabel">Aufwärmen</span><div class="phase" id="phaseLabel">Vorbereitung</div>
-  <div class="timer" id="timer">03:00</div><div class="exercise-art" style="margin:0 auto 10px" id="art">🏃</div>
+  <div class="timer" id="timer">03:00</div><div class="exercise-art" id="art" aria-label="Übungsillustration"></div>
   <h2 id="currentName">Aufwärmen</h2><p class="muted small" id="currentDose">3 Minuten</p><p class="tip" id="currentTip">Locker marschieren und mobilisieren.</p><div class="howto" id="howto"><b>So geht die Übung:</b><br>Kontrolliert und ruhig ausführen.</div>
   <div class="progress"><div id="exerciseBar"></div></div>
   <div class="row" style="margin-top:14px"><button class="btn secondary" style="width:32%" onclick="prevStep()">Zurück</button><button class="btn" style="width:66%" onclick="nextStep()">Weiter</button></div>
-  <button class="btn ghost" style="margin-top:9px" id="timerBtn" onclick="toggleTimer()">Timer starten</button>
-  <p class="tiny muted">Der Bildschirm bleibt während des Trainings aktiv, sofern dein Browser die Funktion unterstützt.</p>
+  <button class="btn ghost" style="margin-top:9px" id="timerBtn" onclick="toggleTimer()">Pause</button>
+  <p class="tiny muted">Der Timer läuft automatisch. Nach Übung und Pause geht es selbständig weiter. Du kannst jederzeit pausieren oder mit «Weiter» überspringen.</p>
  </div>
  <div class="card"><div class="row"><b>Dein Ablauf</b><span id="stepCount" class="small muted">1 / 1</span></div><div id="stepList"></div></div>
 </section>
@@ -78,7 +99,7 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:16px}
 </section>
 </main>
 <nav><button class="active" data-tab="home" onclick="showTab('home')"><b>⌂</b>Start</button><button data-tab="workout" onclick="startWorkout()"><b>▶</b>Training</button><button data-tab="progressPage" onclick="showTab('progressPage')"><b>↗</b>Fortschritt</button><button data-tab="guide" onclick="showTab('guide')"><b>☰</b>Plan</button></nav>
-<footer>My Home Trainer · Version 3 · Deine Daten bleiben auf diesem Gerät.</footer>
+<footer>My Home Trainer · Version 4 · Deine Daten bleiben auf diesem Gerät.</footer>
 <script>
 const plans={
  A:[["Liegestütze","10–15 Wiederholungen","Brust, Schultern und Trizeps. Leichter: Hände auf eine stabile, rutschfeste Erhöhung setzen. Körper gerade halten.","💪"],["Kniebeugen","15–20 Wiederholungen","Füsse etwa schulterbreit. Hüfte nach hinten und unten, Knie folgen den Fussspitzen. Kontrolliert aufstehen.","🦵"],["Rückwärts-Ausfallschritte","10 je Bein","Einen Schritt nach hinten machen und kontrolliert absenken. Bei Bedarf an einer stabilen Stuhllehne festhalten.","🚶"],["Reverse Crunch","12–15 Wiederholungen","Knie zur Brust ziehen und das Becken leicht anheben. Ohne Schwung, langsam absenken.","🧘"],["Unterarmstütz (Plank)","30–40 Sekunden","Körper in einer Linie halten, Bauch anspannen und Hohlkreuz vermeiden. Bei Bedarf auf den Knien.","🧍"]],
@@ -107,14 +128,47 @@ function currentWeek(){return Math.min(12,Math.floor(state.sessions.length/3)+1)
 function refresh(){let count=state.sessions.length,w=currentWeek(),pct=Math.min(100,Math.round(count/36*100));document.getElementById('weekStat').textContent='Woche '+w;document.getElementById('progressText').textContent=pct+' %';document.getElementById('overallBar').style.width=pct+'%';let next=state.lastPlan==='A'?'B':'A';document.getElementById('nextTitle').textContent='Training '+next;document.getElementById('nextTag').textContent=next;document.getElementById('nextSub').textContent=next==='A'?'Ganzkörper & Bauch':'Oberkörper, Rücken & Rumpf';let thisWeek=count%3;document.getElementById('weekSessions').textContent=thisWeek+' / 3';document.getElementById('weekBar').style.width=(thisWeek/3*100)+'%';}
 function makeSteps(){steps=[{type:'warm',name:'Aufwärmen',dose:'3 Minuten',tip:'Auf der Stelle marschieren, Armkreisen, lockere Kniebeugen und Hüftmobilisation.',duration:180,art:'🏃'}];plans[activePlan].forEach((x,i)=>steps.push({type:'work',name:x[0],dose:x[1],tip:x[2],duration:40,art:x[3],index:i}));steps.push({type:'cool',name:'Abschluss',dose:'2 Minuten',tip:'Locker bewegen, tief durchatmen und leicht mobilisieren.',duration:120,art:'🌿'})}
 function startWorkout(which){activePlan=which||((state.lastPlan==='A')?'B':'A');keepScreenOn();round=1;rounds=currentWeek()<=2?2:3;makeSteps();step=0;phase='work';showTab('workout');renderStep()}
-function renderStep(){stopTimer();let s=steps[step];seconds=s.duration;phase='work';document.getElementById('workTitle').textContent='Training '+activePlan;document.getElementById('roundLabel').textContent=s.type==='work'?`Durchgang ${round} von ${rounds}`:(s.type==='warm'?'Aufwärmen':'Abschluss');document.getElementById('phaseLabel').textContent=s.type==='work'?'Belastung':s.type==='warm'?'Vorbereitung':'Cool-down';document.getElementById('currentName').textContent=s.name;document.getElementById('currentDose').textContent=s.dose;document.getElementById('currentTip').textContent=s.tip;document.getElementById('art').textContent=s.art;let ft=formTips[s.name];document.getElementById('howto').innerHTML=ft?'<b>1 · Ausgangsposition</b><br>'+ft[0]+'<br><br><b>2 · Bewegung</b><br>'+ft[1]+'<br><br><b>3 · Technik-Tipp</b><br>'+ft[2]:'<b>So geht es:</b><br>'+s.tip;document.getElementById('timer').textContent=fmt(seconds);document.getElementById('timerBtn').textContent='Timer starten';document.getElementById('stepCount').textContent=(step+1)+' / '+steps.length;document.getElementById('exerciseBar').style.width=((step+1)/steps.length*100)+'%';renderStepList()}
+
+function exerciseIllustration(name){
+ const poses={
+ 'Liegestütze':{a:'M28 60 L88 60 L116 60 M88 60 L83 87 M88 60 L97 87 M28 60 L18 83 M28 60 L20 88',b:'M190 68 L250 68 L278 68 M250 68 L244 88 M250 68 L260 88 M190 68 L180 88 M190 68 L182 91',mus:'M55 56 Q68 48 81 56'},
+ 'Kniebeugen':{a:'M28 42 L55 48 L66 72 L62 91 M55 48 L43 72 L40 91 M55 48 L75 58 L86 43',b:'M190 52 L220 64 L234 78 L230 92 M220 64 L202 77 L198 92 M220 64 L245 72 L260 56',mus:'M48 52 Q57 45 67 55'},
+ 'Rückwärts-Ausfallschritte':{a:'M28 42 L55 48 L63 72 L60 91 M55 48 L42 70 L38 91 M55 48 L76 58 L86 43',b:'M190 42 L220 50 L238 72 L256 91 M220 50 L202 67 L186 91 M220 50 L245 60 L258 43',mus:'M208 52 Q222 45 232 58'},
+ 'Reverse Crunch':{a:'M20 77 L70 77 L105 77 M70 77 L67 89 M70 77 L80 89 M20 77 L12 72',b:'M185 77 L235 77 L270 62 M235 77 L250 61 M235 77 L244 91 M185 77 L176 72',mus:'M45 72 Q58 66 70 73'},
+ 'Unterarmstütz (Plank)':{a:'M28 62 L88 62 L116 62 M88 62 L82 86 M88 62 L98 86 M28 62 L18 83 M28 62 L18 87',b:'M190 62 L250 62 L278 62 M250 62 L244 86 M250 62 L260 86 M190 62 L180 83 M190 62 L180 87',mus:'M55 57 Q70 52 83 57'},
+ 'Pike Push-ups':{a:'M28 75 L62 48 L95 75 L115 88 M62 48 L53 84 M62 48 L73 84 M28 75 L18 88',b:'M190 75 L224 48 L257 75 L278 88 M224 48 L215 84 M224 48 L235 84 M190 75 L180 88',mus:'M55 47 Q65 40 74 48'},
+ 'Glute Bridge':{a:'M20 78 L62 78 L98 78 M62 78 L60 91 M62 78 L74 91',b:'M180 82 L218 82 L252 52 L278 52 M218 82 L216 92 M218 82 L232 92',mus:'M230 54 Q244 45 255 54'},
+ 'Y-T-W Rückenheben':{a:'M18 82 L62 82 L105 82 M62 82 L52 66 M62 82 L72 66 M62 82 L44 52 M62 82 L80 52',b:'M180 82 L224 82 L278 82 M224 82 L204 62 M224 82 L244 62 M224 82 L202 48 M224 82 L246 48',mus:'M52 75 Q62 67 73 75'},
+ 'Dead Bug':{a:'M24 76 L70 76 L100 76 M70 76 L48 52 M70 76 L88 52 M70 76 L55 91 M70 76 L88 91',b:'M184 76 L230 76 L278 76 M230 76 L210 52 M230 76 L255 52 M230 76 L212 91 M230 76 L250 91',mus:'M54 70 Q67 64 79 70'},
+ 'Seitlicher Unterarmstütz':{a:'M22 72 L70 58 L102 42 M70 58 L60 88 M70 58 L84 88 M22 72 L16 88',b:'M184 72 L232 58 L264 42 M232 58 L222 88 M232 58 L246 88 M184 72 L178 88',mus:'M215 55 Q230 48 242 55'}
+ };
+ const p=poses[name]||poses['Liegestütze'];
+ const draw=(path,offset=0)=>path;
+ return `<svg viewBox="0 0 310 112" role="img" aria-label="${name}: zwei Bewegungspositionen mit aktivierter Muskulatur">
+ <defs><marker id="arr" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6" fill="#247fc0"/></marker></defs>
+ <path d="M8 94 H302" stroke="#cbd8e4" stroke-width="2" stroke-linecap="round"/>
+ <g fill="none" stroke="#244b70" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+ <path d="${p.a}"/><path d="${p.b}"/>
+ </g>
+ <g fill="#f2c7a5" stroke="#244b70" stroke-width="2">
+ <circle cx="18" cy="54" r="8"/><circle cx="180" cy="60" r="8"/>
+ </g>
+ <g fill="#ef7953" opacity=".95"><ellipse cx="62" cy="58" rx="10" ry="5"/><ellipse cx="224" cy="58" rx="10" ry="5"/></g>
+ <path d="M124 48 H160" stroke="#247fc0" stroke-width="4" marker-end="url(#arr)" stroke-linecap="round"/>
+ <text x="62" y="108" font-size="8" text-anchor="middle" fill="#244b70">START</text>
+ <text x="224" y="108" font-size="8" text-anchor="middle" fill="#244b70">BEWEGUNG</text>
+ <text x="154" y="14" font-size="8" text-anchor="middle" fill="#ef7953" font-weight="700">AKTIVE MUSKELN</text>
+ </svg>`;
+}
+
+function renderStep(){stopTimer();let s=steps[step];seconds=s.duration;phase='work';document.getElementById('workTitle').textContent='Training '+activePlan;document.getElementById('roundLabel').textContent=s.type==='work'?`Durchgang ${round} von ${rounds}`:(s.type==='warm'?'Aufwärmen':'Abschluss');document.getElementById('phaseLabel').textContent=s.type==='work'?'Belastung':s.type==='warm'?'Vorbereitung':'Cool-down';document.getElementById('currentName').textContent=s.name;document.getElementById('currentDose').textContent=s.dose;document.getElementById('currentTip').textContent=s.tip;document.getElementById('art').innerHTML=exerciseIllustration(s.name);let ft=formTips[s.name];document.getElementById('howto').innerHTML=ft?'<b>1 · Ausgangsposition</b><br>'+ft[0]+'<br><br><b>2 · Bewegung</b><br>'+ft[1]+'<br><br><b>3 · Technik-Tipp</b><br>'+ft[2]:'<b>So geht es:</b><br>'+s.tip;document.getElementById('timer').textContent=fmt(seconds);document.getElementById('timerBtn').textContent='Pause';document.getElementById('stepCount').textContent=(step+1)+' / '+steps.length;document.getElementById('exerciseBar').style.width=((step+1)/steps.length*100)+'%';renderStepList();setTimeout(()=>{if(!document.getElementById('workout').classList.contains('hidden')&&!running)toggleTimer()},450)}
 function renderStepList(){document.getElementById('stepList').innerHTML=steps.map((x,i)=>`<div class="checkline"><span class="num">${i+1}</span><div style="flex:1"><b>${x.name}</b><div class="muted tiny">${x.dose}</div></div>${i===step?'<span class="tag">Jetzt</span>':''}</div>`).join('')}
 function fmt(n){return String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0')}
 function beep(){try{let C=window.AudioContext||window.webkitAudioContext;if(!C)return;let c=new C(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=740;g.gain.value=.08;o.start();o.stop(c.currentTime+.16);setTimeout(()=>c.close(),300)}catch(e){}if(navigator.vibrate)navigator.vibrate([120,60,120])}
-function toggleTimer(){if(running){stopTimer();document.getElementById('timerBtn').textContent='Timer fortsetzen';return}running=true;document.getElementById('timerBtn').textContent='Timer pausieren';interval=setInterval(()=>{seconds--;document.getElementById('timer').textContent=fmt(seconds);if(seconds<=0){stopTimer();beep();document.getElementById('timerBtn').textContent='Weiter …';setTimeout(()=>{if(!document.getElementById('workout').classList.contains('hidden'))nextStep()},900);}},1000)}
+function toggleTimer(){if(running){stopTimer();document.getElementById('timerBtn').textContent='Weiterlaufen lassen';return}running=true;document.getElementById('timerBtn').textContent='Pause';interval=setInterval(()=>{seconds--;document.getElementById('timer').textContent=fmt(seconds);if(seconds<=0){stopTimer();beep();document.getElementById('timerBtn').textContent='Wechselt automatisch …';setTimeout(()=>{if(!document.getElementById('workout').classList.contains('hidden'))nextStep()},900);}},1000)}
 function stopTimer(){if(interval)clearInterval(interval);interval=null;running=false}
 function nextStep(){stopTimer();let s=steps[step];if(step===steps.length-1){state.sessions.push({date:new Date().toISOString(),plan:activePlan,week:currentWeek()});state.lastPlan=activePlan;persist();beep();alert('Geschafft! Training '+activePlan+' wurde gespeichert.');showTab('home');return}
- if(s.type==='work'&&phase==='work'){phase='rest';seconds=(s.index===4?60:20);document.getElementById('phaseLabel').textContent='Pause';document.getElementById('roundLabel').textContent=`Erholung · Durchgang ${round}/${rounds}`;document.getElementById('currentName').textContent='Pause';document.getElementById('currentDose').textContent=seconds===60?'60 Sekunden zwischen den Durchgängen':'20 Sekunden';document.getElementById('currentTip').textContent='Locker atmen, ausschütteln und für die nächste Übung bereit machen.';document.getElementById('art').textContent='💧';document.getElementById('timer').textContent=fmt(seconds);document.getElementById('timerBtn').textContent='Pausentimer starten';return}
+ if(s.type==='work'&&phase==='work'){phase='rest';seconds=(s.index===4?60:20);document.getElementById('phaseLabel').textContent='Pause';document.getElementById('roundLabel').textContent=`Erholung · Durchgang ${round}/${rounds}`;document.getElementById('currentName').textContent='Pause';document.getElementById('currentDose').textContent=seconds===60?'60 Sekunden zwischen den Durchgängen':'20 Sekunden';document.getElementById('currentTip').textContent='Locker atmen, ausschütteln und für die nächste Übung bereit machen.';document.getElementById('art').textContent='💧';document.getElementById('timer').textContent=fmt(seconds);document.getElementById('timerBtn').textContent='Pause';setTimeout(()=>{if(!document.getElementById('workout').classList.contains('hidden')&&!running)toggleTimer()},450);return}
  if(s.type==='work'&&phase==='rest'){if(s.index===4&&round<rounds){round++;step=1}else{step++}renderStep();return}
  step++;renderStep()}
 function prevStep(){stopTimer();if(phase==='rest'){phase='work';renderStep();return}if(step>0)step--;round=1;renderStep()}
